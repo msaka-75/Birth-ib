@@ -2,19 +2,20 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Invitation Anniversaire Ibrahim</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-color: #f7ede2;
+      --bg-cream: #faefe4;
+      --bg-warm: #ebd5bf;
       --env-base: #dfcca8;
-      --env-dark: #ccb48c;
-      --env-shadow: rgba(84, 60, 32, 0.18);
-      --gold-seal: linear-gradient(135deg, #e6c875 0%, #b89130 50%, #d4af37 100%);
+      --env-dark: #c9b085;
+      --env-shadow: rgba(85, 59, 34, 0.22);
+      --gold-gradient: linear-gradient(135deg, #ffd782 0%, #b8860b 50%, #e6be67 100%);
     }
 
     * {
@@ -31,60 +32,156 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at center, #fffbf5 0%, var(--bg-color) 100%);
-      font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
+      background: radial-gradient(circle at 50% 30%, #fffbf6 0%, var(--bg-cream) 55%, var(--bg-warm) 100%);
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
       perspective: 1200px;
+      position: relative;
     }
 
-    /* Particules et nuages légers en arrière-plan */
+    /* === DÉCORATIONS D'ARRIÈRE-PLAN (BALLONS & NUAGES) === */
+    .clouds-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .cloud {
       position: absolute;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 100px;
-      filter: blur(12px);
+      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 70%, transparent 100%);
+      filter: blur(14px);
+      border-radius: 50%;
+    }
+    .c1 { width: 420px; height: 180px; top: -40px; left: -80px; }
+    .c2 { width: 500px; height: 220px; bottom: -60px; right: -100px; }
+    .c3 { width: 320px; height: 140px; top: 35%; right: -60px; opacity: 0.7; }
+    .c4 { width: 360px; height: 150px; bottom: 20%; left: -60px; opacity: 0.6; }
+
+    /* Grappes de ballons flottants style peluche/nude */
+    .balloon-cluster {
+      position: absolute;
       pointer-events: none;
-      animation: floatCloud 25s infinite linear alternate;
-    }
-    .c1 { width: 350px; height: 120px; top: 10%; left: -50px; }
-    .c2 { width: 450px; height: 150px; bottom: 8%; right: -70px; animation-duration: 35s; }
-
-    @keyframes floatCloud {
-      from { transform: translateX(0); }
-      to { transform: translateX(80px); }
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: gentleFloat 6s ease-in-out infinite alternate;
     }
 
-    /* Indication textuelle */
-    .hint {
+    .cluster-left { top: 8%; left: 4%; }
+    .cluster-right { bottom: 10%; right: 4%; animation-duration: 7s; }
+
+    .balloon {
+      border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+      box-shadow: inset -6px -8px 15px rgba(0,0,0,0.1), 0 10px 20px rgba(120, 95, 75, 0.15);
+      position: relative;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 6px solid rgba(140, 110, 85, 0.6);
+    }
+
+    .b-nude { width: 68px; height: 85px; background: radial-gradient(circle at 35% 30%, #f6e8da, #d9beab); margin-bottom: -15px; }
+    .b-caramel { width: 85px; height: 105px; background: radial-gradient(circle at 35% 30%, #e2be9b, #b88f68); }
+    .b-gold { width: 60px; height: 75px; background: radial-gradient(circle at 35% 30%, #fae6b2, #cca557); margin-top: -20px; }
+
+    /* Illustration d'ourson en peluche décoratif */
+    .teddy-deco {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.9;
+    }
+
+    .teddy-bottom-left {
+      bottom: 20px;
+      left: 20px;
+      width: 140px;
+      height: 140px;
+      animation: breathe 4s ease-in-out infinite;
+    }
+
+    .teddy-top-right {
+      top: 30px;
+      right: 30px;
+      width: 120px;
+      height: 120px;
+      transform: rotate(10deg);
+      animation: breathe 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes gentleFloat {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-16px) rotate(2deg); }
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    /* === TITRE & INSTRUCTION === */
+    .header-text {
+      position: relative;
+      z-index: 2;
+      text-align: center;
       margin-bottom: 25px;
-      color: #7d6b53;
-      font-size: 1.1rem;
-      letter-spacing: 1px;
       transition: opacity 0.5s ease;
+    }
+
+    .header-text h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      color: #7a5a3a;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .header-text p {
       font-family: 'Playfair Display', serif;
       font-style: italic;
+      color: #9c7a56;
+      font-size: 1.05rem;
     }
 
-    /* Conteneur principal de l'enveloppe */
-    .envelope-wrapper {
+    /* === CONTENEUR DE L'ENVELOPPE === */
+    .stage {
       position: relative;
+      z-index: 5;
       width: 340px;
       height: 240px;
+      margin-top: 40px;
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
       cursor: pointer;
     }
 
-    /* Le corps de l'enveloppe */
     .envelope {
       position: relative;
       width: 100%;
       height: 100%;
       background: var(--env-dark);
-      border-radius: 8px;
-      box-shadow: 0 20px 40px var(--env-shadow);
+      border-radius: 12px;
+      box-shadow: 0 25px 50px var(--env-shadow);
       transform-style: preserve-3d;
     }
 
-    /* Rabat supérieur rabattable */
+    /* Rabats de l'enveloppe */
     .flap-top {
       position: absolute;
       top: 0;
@@ -93,13 +190,12 @@
       height: 0;
       border-left: 170px solid transparent;
       border-right: 170px solid transparent;
-      border-top: 130px solid var(--env-base);
+      border-top: 135px solid var(--env-base);
       transform-origin: top;
-      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 5;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 6;
     }
 
-    /* Rabats inférieurs et côtés */
     .flap-left {
       position: absolute;
       top: 0;
@@ -108,10 +204,10 @@
       height: 0;
       border-top: 120px solid transparent;
       border-bottom: 120px solid transparent;
-      border-left: 175px solid #d7c19b;
-      z-index: 3;
-      border-bottom-left-radius: 8px;
-      border-top-left-radius: 8px;
+      border-left: 175px solid #d8c29d;
+      z-index: 4;
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
     }
 
     .flap-right {
@@ -122,10 +218,10 @@
       height: 0;
       border-top: 120px solid transparent;
       border-bottom: 120px solid transparent;
-      border-right: 175px solid #cfb890;
-      z-index: 3;
-      border-bottom-right-radius: 8px;
-      border-top-right-radius: 8px;
+      border-right: 175px solid #d0ba94;
+      z-index: 4;
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
     }
 
     .flap-bottom {
@@ -136,125 +232,288 @@
       height: 0;
       border-left: 170px solid transparent;
       border-right: 170px solid transparent;
-      border-bottom: 140px solid #c9b187;
-      z-index: 4;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
+      border-bottom: 140px solid #c4ab81;
+      z-index: 5;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
     }
 
-    /* Sceau doré cliquable */
+    /* Sceau doré de cire */
     .wax-seal {
       position: absolute;
       top: 110px;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 54px;
-      height: 54px;
-      background: var(--gold-seal);
+      width: 60px;
+      height: 60px;
+      background: var(--gold-gradient);
       border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25), inset 0 2px 3px rgba(255, 255, 255, 0.4);
-      z-index: 6;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+      z-index: 7;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.4s ease, opacity 0.4s ease;
+      transition: transform 0.5s ease, opacity 0.5s ease;
       cursor: pointer;
+      border: 2px solid rgba(255, 255, 255, 0.4);
     }
 
-    .wax-seal span {
-      font-size: 20px;
-      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+    .wax-seal svg {
+      width: 32px;
+      height: 32px;
+      fill: #5a3c10;
+      filter: drop-shadow(0 1px 1px rgba(255,255,255,0.4));
     }
 
-    /* La carte d'invitation (votre image intacte) */
+    /* === LA CARTE D'INVITATION (VOTRE IMAGE PNG INTACTE) === */
     .invitation-card {
       position: absolute;
       top: 15px;
-      left: 20px;
-      width: 300px;
-      height: 420px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      z-index: 2;
-      transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), z-index 0.3s ease;
-      overflow: hidden;
+      left: 15px;
+      width: 310px;
+      height: 440px;
+      background: transparent;
+      border-radius: 14px;
+      box-shadow: 0 15px 35px rgba(90, 65, 40, 0.25);
+      z-index: 3;
+      transition: transform 1s cubic-bezier(0.25, 1, 0.3, 1), z-index 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
     .invitation-card img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      border-radius: 14px;
       display: block;
     }
 
-    /* --- ÉTAT OUVERT --- */
+    /* === ANIMATION D'OUVERTURE === */
     .envelope-wrapper.open .flap-top {
       transform: rotateX(180deg);
-      z-index: 1;
+      z-index: 2;
     }
 
     .envelope-wrapper.open .wax-seal {
       opacity: 0;
-      transform: translate(-50%, -50%) scale(0.6);
+      transform: translate(-50%, -50%) scale(0.4);
       pointer-events: none;
     }
 
     .envelope-wrapper.open .invitation-card {
-      z-index: 10;
-      transform: translateY(-240px) scale(1.15);
+      z-index: 12;
+      transform: translateY(-230px) scale(1.18);
     }
 
-    /* Mode plein écran sur mobile pour que l'invitation soit lisible */
+    /* Toile de particules dorées */
+    #sparkles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* Adaptation Mobile */
     @media (max-width: 480px) {
-      .envelope-wrapper.open .invitation-card {
-        transform: translateY(-200px) scale(1.1);
+      .stage {
+        width: 300px;
+        height: 210px;
+        margin-top: 60px;
       }
+      .flap-top {
+        border-left-width: 150px;
+        border-right-width: 150px;
+        border-top-width: 120px;
+      }
+      .flap-left { border-left-width: 155px; border-top-width: 105px; border-bottom-width: 105px; }
+      .flap-right { border-right-width: 155px; border-top-width: 105px; border-bottom-width: 105px; }
+      .flap-bottom {
+        border-left-width: 150px;
+        border-right-width: 150px;
+        border-bottom-width: 125px;
+      }
+      .invitation-card {
+        width: 270px;
+        height: 385px;
+      }
+      .envelope-wrapper.open .invitation-card {
+        transform: translateY(-205px) scale(1.15);
+      }
+      .teddy-bottom-left { width: 100px; height: 100px; }
+      .teddy-top-right { width: 90px; height: 90px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="cloud c1"></div>
-  <div class="cloud c2"></div>
+  <!-- Particules d'étoiles -->
+  <canvas id="sparkles"></canvas>
 
-  <p class="hint" id="hint">Appuyez sur le sceau pour ouvrir l'invitation</p>
+  <!-- Nuages d'arrière-plan -->
+  <div class="clouds-bg">
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="cloud c4"></div>
+  </div>
 
-  <div class="envelope-wrapper" id="envelopeWrapper">
-    <!-- Rabats -->
-    <div class="flap-top"></div>
-    <div class="flap-left"></div>
-    <div class="flap-right"></div>
-    <div class="flap-bottom"></div>
+  <!-- Ballons décoratifs gauches -->
+  <div class="balloon-cluster cluster-left">
+    <div class="balloon b-nude"></div>
+    <div class="balloon b-caramel"></div>
+    <div class="balloon b-gold"></div>
+  </div>
 
-    <!-- Sceau doré -->
-    <div class="wax-seal">
-      <span>✉️</span>
+  <!-- Ballons décoratifs droits -->
+  <div class="balloon-cluster cluster-right">
+    <div class="balloon b-gold"></div>
+    <div class="balloon b-nude"></div>
+    <div class="balloon b-caramel"></div>
+  </div>
+
+  <!-- Ourson décoratif bas gauche (SVG vectoriel chaleureux) -->
+  <svg class="teddy-deco teddy-bottom-left" viewBox="0 0 100 100">
+    <circle cx="28" cy="28" r="14" fill="#c49a6c" stroke="#ab7f52" stroke-width="2"/>
+    <circle cx="28" cy="28" r="8" fill="#e8cfb3"/>
+    <circle cx="72" cy="28" r="14" fill="#c49a6c" stroke="#ab7f52" stroke-width="2"/>
+    <circle cx="72" cy="28" r="8" fill="#e8cfb3"/>
+    <ellipse cx="50" cy="50" rx="32" ry="28" fill="#c49a6c" stroke="#ab7f52" stroke-width="2"/>
+    <ellipse cx="50" cy="56" rx="16" ry="12" fill="#faefe4"/>
+    <ellipse cx="50" cy="51" rx="5" ry="3.5" fill="#4a3520"/>
+    <path d="M 50 54.5 Q 46 60 44 58 M 50 54.5 Q 54 60 56 58" stroke="#4a3520" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <circle cx="40" cy="44" r="3.5" fill="#4a3520"/>
+    <circle cx="60" cy="44" r="3.5" fill="#4a3520"/>
+    <circle cx="41.5" cy="42.5" r="1.2" fill="#ffffff"/>
+    <circle cx="61.5" cy="42.5" r="1.2" fill="#ffffff"/>
+    <ellipse cx="33" cy="52" rx="4" ry="2" fill="#f5b8a6" opacity="0.6"/>
+    <ellipse cx="67" cy="52" rx="4" ry="2" fill="#f5b8a6" opacity="0.6"/>
+  </svg>
+
+  <!-- Ourson décoratif haut droit avec nœud -->
+  <svg class="teddy-deco teddy-top-right" viewBox="0 0 100 100">
+    <circle cx="28" cy="28" r="14" fill="#c49a6c"/>
+    <circle cx="28" cy="28" r="8" fill="#ebd2b9"/>
+    <circle cx="72" cy="28" r="14" fill="#c49a6c"/>
+    <circle cx="72" cy="28" r="8" fill="#ebd2b9"/>
+    <ellipse cx="50" cy="50" rx="30" ry="26" fill="#c49a6c"/>
+    <ellipse cx="50" cy="55" rx="14" ry="10" fill="#faefe4"/>
+    <ellipse cx="50" cy="51" rx="4.5" ry="3" fill="#4a3520"/>
+    <circle cx="41" cy="45" r="3" fill="#4a3520"/>
+    <circle cx="59" cy="45" r="3" fill="#4a3520"/>
+    <circle cx="42" cy="44" r="1" fill="#fff"/>
+    <circle cx="60" cy="44" r="1" fill="#fff"/>
+    <!-- Nœud papillon beige -->
+    <polygon points="42,72 50,75 42,78" fill="#b88f68"/>
+    <polygon points="58,72 50,75 58,78" fill="#b88f68"/>
+    <circle cx="50" cy="75" r="3" fill="#9e724a"/>
+  </svg>
+
+  <!-- Titre et consigne -->
+  <div class="header-text" id="headerText">
+    <h1>Ibrahim fête ses 1 an</h1>
+    <p id="hint">Appuyez sur le sceau pour ouvrir l'invitation</p>
+  </div>
+
+  <!-- Enveloppe & Invitation -->
+  <div class="stage">
+    <div class="envelope-wrapper" id="envelopeWrapper">
+      <div class="flap-top"></div>
+      <div class="flap-left"></div>
+      <div class="flap-right"></div>
+      <div class="flap-bottom"></div>
+
+      <!-- Sceau de cire doré (patte d'ours / sceau royal) -->
+      <div class="wax-seal">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="15" r="4.5" />
+          <circle cx="6.5" cy="10" r="2.2" />
+          <circle cx="17.5" cy="10" r="2.2" />
+          <circle cx="9" cy="6" r="2" />
+          <circle cx="15" cy="6" r="2" />
+        </svg>
+      </div>
+
+      <!-- VOTRE IMAGE EN .PNG (Strictement préservée) -->
+      <div class="invitation-card">
+        <img src="invitation.png" alt="Invitation Anniversaire Ibrahim" />
+      </div>
+
+      <div class="envelope"></div>
     </div>
-
-    <!-- Votre image d'invitation -->
-    <div class="invitation-card">
-      <img src="invitation.png" alt="Invitation Anniversaire Ibrahim" />
-    </div>
-
-    <div class="envelope"></div>
   </div>
 
   <script>
     const wrapper = document.getElementById('envelopeWrapper');
     const hint = document.getElementById('hint');
+    const canvas = document.getElementById('sparkles');
+    const ctx = canvas.getContext('2d');
 
-    wrapper.addEventListener('click', () => {
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function createSparkles(x, y) {
+      for (let i = 0; i < 45; i++) {
+        particles.push({
+          x: x,
+          y: y,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 0.5) * 8 - 2,
+          radius: Math.random() * 3 + 1,
+          color: `hsl(${Math.random() * 20 + 40}, 85%, ${Math.random() * 20 + 60}%)`,
+          alpha: 1,
+          decay: Math.random() * 0.02 + 0.015
+        });
+      }
+    }
+
+    function animateSparkles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, index) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.08;
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          particles.splice(index, 1);
+        } else {
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = '#ffe394';
+          ctx.fill();
+          ctx.restore();
+        }
+      });
+      requestAnimationFrame(animateSparkles);
+    }
+    animateSparkles();
+
+    // Interaction au clic
+    wrapper.addEventListener('click', (e) => {
       const isOpen = wrapper.classList.toggle('open');
+      const rect = wrapper.getBoundingClientRect();
+
       if (isOpen) {
-        hint.textContent = "Cliquez à nouveau pour fermer";
-        hint.style.opacity = "0.7";
+        createSparkles(rect.left + rect.width / 2, rect.top + 100);
+        hint.textContent = "Touchez l'invitation pour refermer";
       } else {
         hint.textContent = "Appuyez sur le sceau pour ouvrir l'invitation";
-        hint.style.opacity = "1";
       }
     });
   </script>
