@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invitation Anniversaire Ibrahim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f7ede2;
+      --env-base: #dfcca8;
+      --env-dark: #ccb48c;
+      --env-shadow: rgba(84, 60, 32, 0.18);
+      --gold-seal: linear-gradient(135deg, #e6c875 0%, #b89130 50%, #d4af37 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #fffbf5 0%, var(--bg-color) 100%);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      perspective: 1200px;
+    }
+
+    /* Particules et nuages légers en arrière-plan */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 100px;
+      filter: blur(12px);
+      pointer-events: none;
+      animation: floatCloud 25s infinite linear alternate;
+    }
+    .c1 { width: 350px; height: 120px; top: 10%; left: -50px; }
+    .c2 { width: 450px; height: 150px; bottom: 8%; right: -70px; animation-duration: 35s; }
+
+    @keyframes floatCloud {
+      from { transform: translateX(0); }
+      to { transform: translateX(80px); }
+    }
+
+    /* Indication textuelle */
+    .hint {
+      margin-bottom: 25px;
+      color: #7d6b53;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      transition: opacity 0.5s ease;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+    }
+
+    /* Conteneur principal de l'enveloppe */
+    .envelope-wrapper {
+      position: relative;
+      width: 340px;
+      height: 240px;
+      cursor: pointer;
+    }
+
+    /* Le corps de l'enveloppe */
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: var(--env-dark);
+      border-radius: 8px;
+      box-shadow: 0 20px 40px var(--env-shadow);
+      transform-style: preserve-3d;
+    }
+
+    /* Rabat supérieur rabattable */
+    .flap-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 170px solid transparent;
+      border-right: 170px solid transparent;
+      border-top: 130px solid var(--env-base);
+      transform-origin: top;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 5;
+    }
+
+    /* Rabats inférieurs et côtés */
+    .flap-left {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-top: 120px solid transparent;
+      border-bottom: 120px solid transparent;
+      border-left: 175px solid #d7c19b;
+      z-index: 3;
+      border-bottom-left-radius: 8px;
+      border-top-left-radius: 8px;
+    }
+
+    .flap-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-top: 120px solid transparent;
+      border-bottom: 120px solid transparent;
+      border-right: 175px solid #cfb890;
+      z-index: 3;
+      border-bottom-right-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
+    .flap-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 170px solid transparent;
+      border-right: 170px solid transparent;
+      border-bottom: 140px solid #c9b187;
+      z-index: 4;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    /* Sceau doré cliquable */
+    .wax-seal {
+      position: absolute;
+      top: 110px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 54px;
+      height: 54px;
+      background: var(--gold-seal);
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25), inset 0 2px 3px rgba(255, 255, 255, 0.4);
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      cursor: pointer;
+    }
+
+    .wax-seal span {
+      font-size: 20px;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+    }
+
+    /* La carte d'invitation (votre image intacte) */
+    .invitation-card {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      width: 300px;
+      height: 420px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 2;
+      transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), z-index 0.3s ease;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .invitation-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* --- ÉTAT OUVERT --- */
+    .envelope-wrapper.open .flap-top {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope-wrapper.open .wax-seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+      pointer-events: none;
+    }
+
+    .envelope-wrapper.open .invitation-card {
+      z-index: 10;
+      transform: translateY(-240px) scale(1.15);
+    }
+
+    /* Mode plein écran sur mobile pour que l'invitation soit lisible */
+    @media (max-width: 480px) {
+      .envelope-wrapper.open .invitation-card {
+        transform: translateY(-200px) scale(1.1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+
+  <p class="hint" id="hint">Appuyez sur le sceau pour ouvrir l'invitation</p>
+
+  <div class="envelope-wrapper" id="envelopeWrapper">
+    <!-- Rabats -->
+    <div class="flap-top"></div>
+    <div class="flap-left"></div>
+    <div class="flap-right"></div>
+    <div class="flap-bottom"></div>
+
+    <!-- Sceau doré -->
+    <div class="wax-seal">
+      <span>✉️</span>
+    </div>
+
+    <!-- Votre image d'invitation -->
+    <div class="invitation-card">
+      <img src="invitation.jpg" alt="Invitation Anniversaire Ibrahim" />
+    </div>
+
+    <div class="envelope"></div>
+  </div>
+
+  <script>
+    const wrapper = document.getElementById('envelopeWrapper');
+    const hint = document.getElementById('hint');
+
+    wrapper.addEventListener('click', () => {
+      const isOpen = wrapper.classList.toggle('open');
+      if (isOpen) {
+        hint.textContent = "Cliquez à nouveau pour fermer";
+        hint.style.opacity = "0.7";
+      } else {
+        hint.textContent = "Appuyez sur le sceau pour ouvrir l'invitation";
+        hint.style.opacity = "1";
+      }
+    });
+  </script>
+</body>
+</html>
